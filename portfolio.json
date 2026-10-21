@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "name": "nexus-studio-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: nexus-studio-alan-vo",
+  "workflows": [
+    "Resolve correct Bedrock inference profile IDs for AU/EU/APAC regions from foundation model IDs",
+    "Generate region-aware IAM policies with correct geographic prefixes (us/eu/au/apac) for Bedrock access",
+    "Validate and fix plugin configuration files (hooks.json schema, .mcp.json syntax)",
+    "Acquire valid bootstrap tokens via MSAL acquireTokenSilent flow to prevent 401 errors"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}
