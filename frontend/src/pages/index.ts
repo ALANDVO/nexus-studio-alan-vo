@@ -1,0 +1,5 @@
+export { default as DashboardPage } from './DashboardPage'
+export { default as BedrockPage } from './BedrockPage'
+export { default as IAMPage } from './IAMPage'
+export { default as PluginsPage } from './PluginsPage'
+export { default as BootstrapPage } from './BootstrapPage'
