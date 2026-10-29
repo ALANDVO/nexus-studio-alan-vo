@@ -36,28 +36,7 @@
         "frontend/src/components/IAMPolicyGenerator.tsx",
         "frontend/src/components/PluginValidator.tsx",
         "frontend/src/components/BootstrapToken.tsx",
-        "frontend/src/components/SystemStatus.tsx",
-        "frontend/src/components/styles.css",
-        "frontend/src/pages/DashboardPage.tsx",
-        "frontend/src/pages/BedrockPage.tsx",
-        "frontend/src/pages/IAMPage.tsx",
-        "frontend/src/pages/PluginsPage.tsx",
-        "frontend/src/pages/BootstrapPage.tsx",
-        "frontend/src/test/setup.ts",
-        "frontend/src/components/Components.test.tsx",
-        "backend/Dockerfile",
-        "frontend/Dockerfile",
-        "frontend/nginx.conf",
-        "docker-compose.yaml",
-        "README.md",
-        "portfolio.json",
-        "LICENSE",
-        "CHANGELOG.md",
-        "pyproject.toml",
-        ".github/workflows/ci.yml",
-        ".gitignore",
-        ".env.example",
-        "keycloak/realm-export.json"
+        "frontend/src/components/Components.test.tsx"
       ],
       "tests": [
         "backend/app/tests/test_core.py (25 tests)",
@@ -67,15 +46,25 @@
     {
       "id": "bedrock-model-resolver",
       "title": "Bedrock model identifier resolver for AU/EU/APAC regions",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Resolves correct inference profile prefix (us/eu/au/apac) from region",
         "Maps foundation model IDs to cross-region inference profiles",
         "Validates against known Bedrock region capabilities",
         "Unit tests covering region-to-prefix mapping"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "backend/app/services/bedrock_resolver.py",
+        "backend/app/api/core.py",
+        "frontend/src/components/BedrockResolver.tsx",
+        "frontend/src/hooks/useApi.ts",
+        "frontend/src/types/index.ts"
+      ],
+      "tests": [
+        "backend/app/tests/test_core.py::TestBedrockResolver",
+        "backend/app/tests/test_core.py::TestBedrockResolverUnit",
+        "frontend/src/components/Components.test.tsx"
+      ]
     },
     {
       "id": "iam-policy-generator",

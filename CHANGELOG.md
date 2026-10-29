@@ -1,9 +1,28 @@
 # Changelog
 
-## 1.0.0 — work-in-progress checkpoint
+## 1.1.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
 
+## 1.0.1 — 2024-10-29
+
+### Completed
+- bedrock-model-resolver: Bedrock model identifier resolver for AU/EU/APAC regions
+  - Region-to-prefix mapping (us/eu/au/apac) with 24 AWS regions supported
+  - Foundation model ID to cross-region inference profile mapping
+  - Validation against known Bedrock region capabilities
+  - Unit tests for all region prefixes (8 backend + 2 frontend tests)
+  - API endpoint: POST /api/v1/bedrock/resolve
+  - Frontend component: BedrockResolver with region/model selectors
+
+### Notes
+- This checkpoint marks bedrock-model-resolver feature as complete
+- All existing tests pass (25 backend, 8 frontend)
+- feature-plan.json and PLAN.md updated to reflect completed feature
+
+## 1.0.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
 # Nexus Studio - Changelog
 
 ## [1.0.0] - 2024-10-21
