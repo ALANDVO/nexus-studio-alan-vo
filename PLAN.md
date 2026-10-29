@@ -20,19 +20,23 @@ Acceptance:
 - README with install/run/test steps
 - portfolio.json at root
 
-Implementation: `backend/app/main.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/app/core/logging.py`, `backend/app/models/__init__.py`, `backend/app/services/bedrock_resolver.py`, `backend/app/services/iam_policy_generator.py`, `backend/app/services/plugin_validator.py`, `backend/app/services/bootstrap_token.py`, `backend/app/api/core.py`, `backend/app/tests/test_core.py`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/api/client.ts`, `frontend/src/hooks/useApi.ts`, `frontend/src/types/index.ts`, `frontend/src/components/Layout.tsx`, `frontend/src/components/BedrockResolver.tsx`, `frontend/src/components/IAMPolicyGenerator.tsx`, `frontend/src/components/PluginValidator.tsx`, `frontend/src/components/BootstrapToken.tsx`, `frontend/src/components/SystemStatus.tsx`, `frontend/src/components/styles.css`, `frontend/src/pages/DashboardPage.tsx`, `frontend/src/pages/BedrockPage.tsx`, `frontend/src/pages/IAMPage.tsx`, `frontend/src/pages/PluginsPage.tsx`, `frontend/src/pages/BootstrapPage.tsx`, `frontend/src/test/setup.ts`, `frontend/src/components/Components.test.tsx`, `backend/Dockerfile`, `frontend/Dockerfile`, `frontend/nginx.conf`, `docker-compose.yaml`, `README.md`, `portfolio.json`, `LICENSE`, `CHANGELOG.md`, `pyproject.toml`, `.github/workflows/ci.yml`, `.gitignore`, `.env.example`, `keycloak/realm-export.json`
+Implementation: `backend/app/main.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/app/core/logging.py`, `backend/app/models/__init__.py`, `backend/app/services/bedrock_resolver.py`, `backend/app/services/iam_policy_generator.py`, `backend/app/services/plugin_validator.py`, `backend/app/services/bootstrap_token.py`, `backend/app/api/core.py`, `backend/app/tests/test_core.py`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/api/client.ts`, `frontend/src/hooks/useApi.ts`, `frontend/src/types/index.ts`, `frontend/src/components/Layout.tsx`, `frontend/src/components/BedrockResolver.tsx`, `frontend/src/components/IAMPolicyGenerator.tsx`, `frontend/src/components/PluginValidator.tsx`, `frontend/src/components/BootstrapToken.tsx`, `frontend/src/components/Components.test.tsx`
 
 Tests: `backend/app/tests/test_core.py (25 tests)`, `frontend/src/components/Components.test.tsx (8 tests)`
 
 ### bedrock-model-resolver — Bedrock model identifier resolver for AU/EU/APAC regions
 
-Status: planned
+Status: done
 
 Acceptance:
 - Resolves correct inference profile prefix (us/eu/au/apac) from region
 - Maps foundation model IDs to cross-region inference profiles
 - Validates against known Bedrock region capabilities
 - Unit tests covering region-to-prefix mapping
+
+Implementation: `backend/app/services/bedrock_resolver.py`, `backend/app/api/core.py`, `frontend/src/components/BedrockResolver.tsx`, `frontend/src/hooks/useApi.ts`, `frontend/src/types/index.ts`
+
+Tests: `backend/app/tests/test_core.py::TestBedrockResolver`, `backend/app/tests/test_core.py::TestBedrockResolverUnit`, `frontend/src/components/Components.test.tsx`
 
 ### iam-policy-generator — IAM policy template generator with region-aware prefixes
 
