@@ -90,8 +90,8 @@ class IAMPolicyGenerator:
             resources.append(f"arn:aws:bedrock:{region}::inference-profile/{prefix_str}.anthropic.*")
 
         if include_cross_region and prefix != RegionPrefix.US:
-            # Cross-region inference profiles for non-US regions
-            resources.append(f"arn:aws:bedrock:{region}::inference-profile/{prefix_str}.anthropic.*")
+            # Cross-region inference profiles for non-US regions use wildcard prefix
+            resources.append(f"arn:aws:bedrock:{region}::inference-profile/*.anthropic.*")
 
         # Add the invoke statement
         statements.append(IAMPolicyStatement(

@@ -135,6 +135,33 @@ class TestIAMPolicyGenerator:
         assert "au.anthropic.*" in policy
         assert "us.anthropic.*" not in policy
 
+    def test_generate_policy_eu_region(self, client):
+        response = client.post(
+            "/api/v1/bedrock/iam-policy",
+            json={
+                "region": "eu-central-1",
+                "role_arn": "arn:aws:iam::123456789012:role/TestRole",
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        policy = data["policy_json"]
+        assert "eu.anthropic.*" in policy
+        assert "us.anthropic.*" not in policy
+
+    def test_generate_policy_apac_region(self, client):
+        response = client.post(
+            "/api/v1/bedrock/iam-policy",
+            json={
+                "region": "ap-northeast-1",
+                "role_arn": "arn:aws:iam::123456789012:role/TestRole",
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        policy = data["policy_json"]
+        assert "apac.anthropic.*" in policy
+        assert "us.anthropic.*" not in policy
 
 class TestPluginValidator:
     def test_validate_hooks_json_valid(self, client, tmp_path):
@@ -278,6 +305,33 @@ class TestIAMPolicyGeneratorUnit:
         policy = generator.generate_bedrock_policy("ap-southeast-2", "arn:aws:iam::123456789012:role/TestRole")
         policy_json = policy.to_json()
         assert "au.anthropic.*" in policy_json
+        assert "arn:aws:iam::123456789012:role/TestRole" in policy_json
+        assert "BedrockInvokeAccess" in policy_json
+        assert "BedrockListAccess" in policy_json
+
+    def test_generate_policy_eu_region(self):
+        from app.services.iam_policy_generator import IAMPolicyGenerator
+        from app.services.bedrock_resolver import get_resolver
+
+        generator = IAMPolicyGenerator(get_resolver())
+        policy = generator.generate_bedrock_policy("eu-central-1", "arn:aws:iam::123456789012:role/TestRole")
+        policy_json = policy.to_json()
+        assert "eu.anthropic.*" in policy_json
+        assert "us.anthropic.*" not in policy_json
+        assert "arn:aws:iam::123456789012:role/TestRole" in policy_json
+        assert "BedrockInvokeAccess" in policy_json
+        assert "BedrockListAccess" in policy_json
+        assert "STSAssumeRole" in policy_json
+
+    def test_generate_policy_apac_region(self):
+        from app.services.iam_policy_generator import IAMPolicyGenerator
+        from app.services.bedrock_resolver import get_resolver
+
+        generator = IAMPolicyGenerator(get_resolver())
+        policy = generator.generate_bedrock_policy("ap-northeast-1", "arn:aws:iam::123456789012:role/TestRole")
+        policy_json = policy.to_json()
+        assert "apac.anthropic.*" in policy_json
+        assert "us.anthropic.*" not in policy_json
         assert "arn:aws:iam::123456789012:role/TestRole" in policy_json
         assert "BedrockInvokeAccess" in policy_json
         assert "BedrockListAccess" in policy_json
