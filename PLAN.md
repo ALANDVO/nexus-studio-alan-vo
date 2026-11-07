@@ -99,3 +99,6 @@ Acceptance:
 - HttpOnly cookies with CSRF protection
 - Login/logout flows working
 
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

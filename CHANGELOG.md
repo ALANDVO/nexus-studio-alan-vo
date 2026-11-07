@@ -55,3 +55,7 @@ Partial code published for continued development. Known issues: STATUS.md.
 - API endpoint reference
 - Provider configuration table
 - SSO/SAML setup guide
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
