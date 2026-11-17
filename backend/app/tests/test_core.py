@@ -399,3 +399,16 @@ class TestBootstrapTokenUnit:
         assert "bootstrap_expires_at" in result
         assert "token_source" in result
         assert result["token_source"] == "interactive"  # First call is interactive
+class TestHealthDetailed:
+    def test_health_detailed(self, client):
+        response = client.get("/api/v1/health/detailed")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "healthy"
+        assert data["service"] == "nexus-studio"
+        assert "version" in data
+        assert "regions" in data
+        for region_info in data["regions"]:
+            assert "region" in region_info
+            assert "prefix" in region_info
+            assert "supported_inference_types" in region_info

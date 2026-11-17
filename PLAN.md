@@ -10,10 +10,14 @@ continue-implementation
 
 ### continue-implementation — Continue implementation and resolve known failures
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Run checks, fix failures, and implement the next planned feature
+
+Implementation: `pyproject.toml`, `backend/requirements.txt`
+
+Tests: `backend/app/tests/test_core.py`
 
 ---
 

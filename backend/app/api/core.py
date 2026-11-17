@@ -154,3 +154,19 @@ async def bootstrap_token(request: BootstrapRequest):
     result = manager.bootstrap_flow(request.account)
     return BootstrapResponse(**result)
 
+
+@router.get("/health/detailed")
+async def health_detailed():
+    """Detailed health info."""
+    from app.core.config import get_settings
+    from app.services.bedrock_resolver import REGION_PREFIX_MAP, REGION_CAPABILITIES
+    settings = get_settings()
+    regions = []
+    for region, prefix in REGION_PREFIX_MAP.items():
+        caps = REGION_CAPABILITIES.get(region)
+        regions.append({
+            "region": region,
+            "prefix": prefix.value,
+            "supported_inference_types": [t.value for t in caps.supported_inference_types] if caps else [],
+        })
+    return {"status": "healthy", "service": "nexus-studio", "version": settings.app_version, "regions": regions}
