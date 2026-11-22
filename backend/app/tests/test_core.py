@@ -399,6 +399,40 @@ class TestBootstrapTokenUnit:
         assert "bootstrap_expires_at" in result
         assert "token_source" in result
         assert result["token_source"] == "interactive"  # First call is interactive
+
+    def test_bootstrap_flow_with_cached_token(self):
+        """Test bootstrap flow uses cached token when available."""
+        from app.services.bootstrap_token import (
+            create_bootstrap_config,
+            BootstrapTokenManager,
+            TokenSource,
+            TokenInfo,
+        )
+        import time
+
+        config = create_bootstrap_config(
+            bootstrap_url="https://example.com/bootstrap",
+            client_id="test-client",
+            tenant_id="test-tenant",
+        )
+        manager = BootstrapTokenManager(config)
+
+        # Pre-seed a cached token (non-expired, 60s buffer)
+        cached_token = TokenInfo(
+            access_token="cached-token-value",
+            expires_at=int(time.time()) + 3600,  # 1 hour from now
+            token_source=TokenSource.CACHE,
+            expires_in=3600,
+        )
+        manager.msal_client._token_cache["default"] = cached_token
+
+        result = manager.bootstrap_flow()
+        assert "gateway_token" in result
+        assert "bootstrap_expires_at" in result
+        assert "token_source" in result
+        assert result["token_source"] == "cache"  # Silent refresh used cache
+        assert result["token_expires_in"] == 3600
+
 class TestHealthDetailed:
     def test_health_detailed(self, client):
         response = client.get("/api/v1/health/detailed")
