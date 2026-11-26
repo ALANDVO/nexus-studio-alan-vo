@@ -433,6 +433,54 @@ class TestBootstrapTokenUnit:
         assert result["token_source"] == "cache"  # Silent refresh used cache
         assert result["token_expires_in"] == 3600
 
+
+    
+    def test_bootstrap_flow_different_accounts(self):
+        """Test bootstrap flow correctly scopes tokens per account."""
+        from app.services.bootstrap_token import (
+            create_bootstrap_config,
+            BootstrapTokenManager,
+            TokenSource,
+            TokenInfo,
+        )
+        import time
+
+        config = create_bootstrap_config(
+            bootstrap_url="https://example.com/bootstrap",
+            client_id="test-client",
+            tenant_id="test-tenant",
+        )
+        manager = BootstrapTokenManager(config)
+
+        # Pre-seed a cached token for user1
+        cached_token_user1 = TokenInfo(
+            access_token="user1-token",
+            expires_at=int(time.time()) + 3600,
+            token_source=TokenSource.CACHE,
+            expires_in=3600,
+        )
+        manager.msal_client._token_cache["user1"] = cached_token_user1
+
+        # Pre-seed a cached token for user2 (different account)
+        cached_token_user2 = TokenInfo(
+            access_token="user2-token",
+            expires_at=int(time.time()) + 3600,
+            token_source=TokenSource.CACHE,
+            expires_in=3600,
+        )
+        manager.msal_client._token_cache["user2"] = cached_token_user2
+
+        # Get token for user1 - should use cache
+        result1 = manager.bootstrap_flow("user1")
+        assert result1["token_source"] == "cache"
+
+        # Get token for user2 - should use cache (separate entry), NOT fall back to user1's cache
+        result2 = manager.bootstrap_flow("user2")
+        assert result2["token_source"] == "cache"
+
+        # Get token without account - should use "default" key (different from user1/user2)
+        result3 = manager.bootstrap_flow()
+        assert result3["token_source"] == "interactive"  # No cache under "default"
 class TestHealthDetailed:
     def test_health_detailed(self, client):
         response = client.get("/api/v1/health/detailed")
